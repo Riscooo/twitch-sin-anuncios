@@ -12,13 +12,17 @@ En los vídeos (VOD) quita los trozos de anuncio que vengan dentro.
 
 ## Instalar
 
-En TizenBrew: **Módulos → Añadir** y escribe
+En TizenBrew: gestor de módulos (el icono de la caja) → **Añadir módulo GitHub**, escribe
 
 ```
-gh/Riscooo/twitch-sin-anuncios
+Riscooo/twitch-sin-anuncios
 ```
+
+y cierra el teclado con «Hecho» (no hay botón: se añade al salir del cuadro).
 
 Sale como «Twitch» en la lista de TizenBrew. Para iniciar sesión, la app te da un código para `twitch.tv/activate`.
+
+TizenBrew mete el script al abrirse la página, no antes (con `evaluateScriptOnDocumentStart` el módulo no llega a abrirse en TizenBrew 2.0.5: la app espera un aviso del servicio que no casa con su nombre). Da igual: hls.js crea cada petición en el momento, así que coge el XMLHttpRequest y el fetch del script.
 
 ## Límites
 

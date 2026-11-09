@@ -17,7 +17,7 @@
 (function () {
   'use strict';
   if (window.__twitchSinAnuncios) return;
-  window.__twitchSinAnuncios = '1.0.0';
+  window.__twitchSinAnuncios = '1.0.1';
 
   var PREFIJO = '[Twitch sin anuncios]';
   var CLIENTE_TV = 'ue6666qo983tsx6so1t0vnawi233wa';

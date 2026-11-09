@@ -1,5 +1,6 @@
 // Prueba con la app real de Twitch para teles en un Firefox de Playwright (sin ventana), con el script inyectado al
-// empezar, como hace TizenBrew. Uso: node pruebas/navegador.cjs <canal> [segundos] [captura.png]
+// empezar. Uso: node pruebas/navegador.cjs <canal> [segundos] [captura.png]
+// TARDE=1 lo inyecta ya cargada la página: peor que TizenBrew, que lo evalúa al crearse el contexto de la página.
 const path = require('path');
 const fs = require('fs');
 const { firefox, chromium } = require(process.env.PLAYWRIGHT_CORE || path.join(process.env.HOME, 'Projects/portfolio/node_modules/playwright-core'));
@@ -18,7 +19,7 @@ const motor = process.env.MOTOR === 'chromium' ? chromium : firefox;
     const prueba = JSON.parse(process.env.PRUEBA);
     await contexto.addInitScript({ content: `window.__pruebaPendiente = ${JSON.stringify(prueba)};` });
   }
-  if (!process.env.SIN_SCRIPT) await contexto.addInitScript({ content: fs.readFileSync(path.join(__dirname, '../dist/userScript.js'), 'utf8') });
+  if (!process.env.SIN_SCRIPT && !process.env.TARDE) await contexto.addInitScript({ content: fs.readFileSync(path.join(__dirname, '../dist/userScript.js'), 'utf8') });
   const pagina = await contexto.newPage();
   const mensajes = [];
   pagina.on('console', (m) => { const t = m.text(); if (t.includes('Twitch sin anuncios') || m.type() === 'error') mensajes.push(`${m.type()}: ${t}`.slice(0, 300)); });
@@ -32,6 +33,7 @@ const motor = process.env.MOTOR === 'chromium' ? chromium : firefox;
     }
   });
   await pagina.goto(`https://samsung.tv.twitch.tv/${canal}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
+  if (process.env.TARDE) await pagina.evaluate(fs.readFileSync(path.join(__dirname, '../dist/userScript.js'), 'utf8'));
   // El aviso de cookies sale con «Reject» elegido: Intro, como con el mando.
   for (let i = 0; i < 6; i++) {
     await pagina.waitForTimeout(4000);
