@@ -1,0 +1,26 @@
+{
+  "name": "twitch-sin-anuncios",
+  "appName": "Twitch",
+  "version": "1.0.0",
+  "description": "La app de Twitch para teles Samsung, sin anuncios en los directos: cuando Twitch mete uno, se ve la misma emisión por otra vía que viene limpia.",
+  "packageType": "mods",
+  "websiteURL": "https://samsung.tv.twitch.tv/",
+  "main": "dist/userScript.js",
+  "evaluateScriptOnDocumentStart": true,
+  "keys": [
+    "MediaPlayPause",
+    "MediaPlay",
+    "MediaPause",
+    "MediaStop",
+    "MediaFastForward",
+    "MediaRewind"
+  ],
+  "scripts": {
+    "test": "node --test pruebas/"
+  },
+  "author": "Risco",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/Riscooo/twitch-sin-anuncios"
+  }
+}
